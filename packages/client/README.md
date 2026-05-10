@@ -26,7 +26,7 @@ JSON-RPC by hand.
 ## Install
 
 ```bash
-npm install onplana-mcp-client
+npm install github:Onplana/onplana-mcp-server
 ```
 
 Zero runtime dependencies. Works on Node ≥ 18 (uses ambient `fetch`)

@@ -100,7 +100,7 @@ onplana-mcp-server/
 Install:
 
 ```bash
-npm install onplana-mcp-server @modelcontextprotocol/sdk express
+npm install github:Onplana/onplana-mcp-server @modelcontextprotocol/sdk express
 ```
 
 Wire an Express app:
@@ -143,7 +143,7 @@ runnable demo in [`examples/in-memory/`](./examples/in-memory).
 Install:
 
 ```bash
-npm install onplana-mcp-client
+npm install github:Onplana/onplana-mcp-server
 ```
 
 Use:

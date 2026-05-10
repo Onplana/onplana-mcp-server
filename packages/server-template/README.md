@@ -40,7 +40,7 @@ are platform-specific.
 ## Install
 
 ```bash
-npm install onplana-mcp-server @modelcontextprotocol/sdk express
+npm install github:Onplana/onplana-mcp-server @modelcontextprotocol/sdk express
 ```
 
 `@modelcontextprotocol/sdk` and `express` are peer dependencies so
