@@ -1,0 +1,25 @@
+{
+  "name": "onplana-mcp-server-monorepo",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Open-source MCP server template + Onplana MCP client SDK. Workspace root; do not publish.",
+  "license": "MIT",
+  "homepage": "https://github.com/Onplana/onplana-mcp-server",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Onplana/onplana-mcp-server.git"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "build":     "npm run build --workspaces --if-present",
+    "test":      "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vitest":     "^2.1.9"
+  }
+}

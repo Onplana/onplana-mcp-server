@@ -1,0 +1,57 @@
+# Publish to npm + create a GitHub Release on tagged commits.
+#
+# Tag convention: `v<MAJOR>.<MINOR>.<PATCH>` for the server package,
+# `client-v<MAJOR>.<MINOR>.<PATCH>` for the client. Two tag prefixes
+# let us version the packages independently — the client SDK and the
+# server template evolve on different cadences.
+#
+# Required GitHub repo secret:
+#   NPM_TOKEN — npm access token with publish permission. Generate at
+#               https://www.npmjs.com/settings/<your-user>/tokens with
+#               type "Automation" so it bypasses 2FA in CI.
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+      - 'client-v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write           # GitHub Release creation
+      id-token: write           # npm provenance
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          registry-url: 'https://registry.npmjs.org'
+          cache: npm
+
+      - run: npm ci
+      - run: npm run typecheck --workspaces --if-present
+      - run: npm run test --workspaces --if-present
+      - run: npm run build --workspaces --if-present
+
+      # Pick which package to publish from the tag prefix.
+      - name: Publish onplana-mcp-server
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: npm publish --provenance --access public
+        working-directory: packages/server-template
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish onplana-mcp-client
+        if: startsWith(github.ref, 'refs/tags/client-v')
+        run: npm publish --provenance --access public
+        working-directory: packages/client
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true

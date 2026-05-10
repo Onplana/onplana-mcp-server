@@ -1,0 +1,22 @@
+{
+  "name": "@onplana-mcp/example-in-memory",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Runnable MCP server demo with three trivial tools (echo, time_now, add). Verifies the onplana-mcp-server template works end-to-end.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start":     "tsx server.ts"
+  },
+  "dependencies": {
+    "onplana-mcp-server": "*",
+    "express": "^4.21.0",
+    "@modelcontextprotocol/sdk": "^1.29.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node":    "^22.0.0",
+    "tsx":            "^4.19.0",
+    "typescript":     "^5.6.3"
+  }
+}
