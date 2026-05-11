@@ -34,7 +34,7 @@
   "homepage": "https://github.com/Onplana/onplana-mcp-server#readme",
   "repository": {
     "type": "git",
-    "url":  "https://github.com/Onplana/onplana-mcp-server.git",
+    "url":  "git+https://github.com/Onplana/onplana-mcp-server.git",
     "directory": "packages/server-template"
   },
   "bugs": {
