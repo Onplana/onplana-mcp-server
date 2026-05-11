@@ -36,6 +36,16 @@ jobs:
       - run: npm run test --workspaces --if-present
       - run: npm run build --workspaces --if-present
 
+      # Sync LICENSE + CHANGELOG from the repo root into each package
+      # before publish. npm's `files` array can't reach outside the
+      # package directory; copying here keeps the tarballs legally
+      # complete without forcing maintainers to remember to mirror
+      # changes manually.
+      - name: Sync LICENSE + CHANGELOG into packages
+        run: |
+          cp LICENSE CHANGELOG.md packages/server-template/
+          cp LICENSE CHANGELOG.md packages/client/
+
       # Pick which package to publish from the tag prefix.
       - name: Publish onplana-mcp-server
         if: startsWith(github.ref, 'refs/tags/v')
