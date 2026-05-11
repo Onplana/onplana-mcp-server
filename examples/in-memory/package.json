@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "onplana-mcp-server": "*",
-    "express": "^4.21.0",
+    "express": "^5.2.1",
     "@modelcontextprotocol/sdk": "^1.29.0"
   },
   "devDependencies": {
