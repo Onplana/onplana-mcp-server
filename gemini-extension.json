@@ -1,0 +1,17 @@
+{
+  "name": "onplana",
+  "version": "1.0.0",
+  "description": "Connect Gemini CLI + Gemini Code Assist to Onplana. Read and update projects, tasks, sprints, comments, risks, milestones, and team members. Search across your org's indexed content (vector + BM25 RAG). Audited, plan-gated, prompt-injection-contained.",
+  "homepage": "https://onplana.com/mcp",
+  "repository": "https://github.com/Onplana/onplana-mcp-server",
+  "mcpServers": {
+    "onplana": {
+      "httpUrl": "https://mcp.onplana.com/mcp",
+      "timeout": 30000,
+      "headers": {
+        "Authorization": "Bearer ${ONPLANA_PAT}"
+      }
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

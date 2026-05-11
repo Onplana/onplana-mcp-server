@@ -209,7 +209,24 @@ Tested against:
 - Claude Desktop (Custom Connector)
 - Cursor (`~/.cursor/mcp.json`)
 - ChatGPT custom connectors (where MCP is enabled in your account)
+- Gemini CLI + Gemini Code Assist (`~/.gemini/settings.json`)
+- GitHub Copilot in VS Code (`.vscode/mcp.json`)
 - The official [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+
+## Install in Gemini CLI
+
+The repo ships a `gemini-extension.json` manifest at the root, so
+Gemini CLI installs Onplana with one command:
+
+```bash
+export ONPLANA_PAT=pat_paste-your-token-here  # mint at app.onplana.com/integrations
+gemini extensions install https://github.com/Onplana/onplana-mcp-server
+```
+
+Restart the `gemini` CLI (or reload your VS Code / JetBrains window
+if you're using Gemini Code Assist). The Onplana tools appear in
+`/mcp` and your `GEMINI.md` context picks up the usage hints
+shipped in this repo.
 
 ## Contributing
 
