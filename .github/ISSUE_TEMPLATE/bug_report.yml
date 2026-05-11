@@ -1,0 +1,86 @@
+name: 🐛 Bug report
+description: 'Something is broken in onplana-mcp-server, onplana-mcp-client, or the in-memory example.'
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug.
+
+        Before continuing — if this is a **security issue** (auth bypass,
+        prompt-injection escape, data leak), do NOT file it here. Email
+        security@onplana.com instead. See [SECURITY.md](https://github.com/Onplana/onplana-mcp-server/blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package is affected?
+      options:
+        - 'onplana-mcp-server (server template)'
+        - 'onplana-mcp-client (typed client SDK)'
+        - 'examples/in-memory (the demo)'
+        - 'Repository tooling / CI'
+        - 'Not sure'
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      description: 'Output of `npm ls onplana-mcp-server` or the commit SHA you tested against.'
+      placeholder: '0.1.0  (or  6132d5e)'
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      placeholder: 'v22.6.0'
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: 'Concise description of the unexpected behavior.'
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: |
+        Minimal reproduction steps. If you can paste a curl + JSON-RPC body,
+        a code snippet, or a link to a stripped-down repo, that's ideal.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: 'What did you expect to happen instead?'
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs / error output
+      description: 'Stack trace, JSON-RPC error envelope, or HTTP error body. Redact tokens.'
+      render: text
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Confirmations
+      options:
+        - label: 'I searched existing issues for duplicates.'
+          required: true
+        - label: 'This is NOT a security issue. (If it is, I will email security@onplana.com instead of submitting here.)'
+          required: true

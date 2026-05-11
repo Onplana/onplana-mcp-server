@@ -1,0 +1,70 @@
+name: ✨ Feature request
+description: 'Suggest a new feature, helper, or pattern for the server template or client SDK.'
+labels: [enhancement, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing — see CONTRIBUTING.md, especially the rule that the
+        server template stays platform-agnostic. If your idea is
+        Onplana-specific (a new tool, a particular auth provider, etc.),
+        it belongs in your own dispatcher implementation, not in this
+        package.
+
+        Useful additions: new prompt-injection escape patterns, additional
+        helpers that platform implementers consistently end up writing,
+        broader test coverage, documentation gaps.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Which package would this affect?
+      options:
+        - 'onplana-mcp-server (server template)'
+        - 'onplana-mcp-client (typed client SDK)'
+        - 'Both'
+        - 'Repository tooling / CI / docs'
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: |
+        What concrete problem are you running into? "I built an MCP server
+        and had to reinvent X" is a strong signal; "it would be cool if Y"
+        is a weaker one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: |
+        What would the API or behavior look like? Code sketches welcome.
+        If you're proposing a new export or a change to the Dispatcher /
+        BearerAuth contract, call that out — those need careful review
+        and may require a major version bump.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: |
+        What did you try first? Why didn't it work? Helps reviewers
+        understand whether the proposed surface is the right shape.
+
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      description: 'Per CONTRIBUTING.md, the transport stays platform-agnostic.'
+      options:
+        - label: "This change is reusable across MCP server implementations, not just Onplana's."
+          required: true
+        - label: "If accepted, I'm willing to open a PR with the implementation + tests."
+          required: false

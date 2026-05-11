@@ -1,0 +1,119 @@
+# Dependabot configuration.
+#
+# Three update streams in this repo:
+#   1. Workspace root npm deps (typescript, vitest)
+#   2. Server template package (express, @modelcontextprotocol/sdk, supertest, …)
+#   3. Client SDK package (@types/node, vitest, typescript)
+#   4. Example package (express, tsx, @modelcontextprotocol/sdk)
+#   5. GitHub Actions versions (actions/checkout, actions/setup-node, etc.)
+#
+# Each `npm` ecosystem entry needs a unique `directory:` so Dependabot
+# treats them as independent — otherwise it conflates the package.json
+# files and you get cross-talk in the upgrade PRs.
+#
+# Cadence: weekly. The MCP ecosystem moves fast (especially the SDK)
+# but not so fast that daily PRs would be useful — they'd just bury
+# real signal in churn. Weekly Mondays gives a predictable Monday-
+# morning batch the maintainer can review in one sitting.
+#
+# Auto-merge intentionally NOT enabled. The project surface is small
+# enough that human review of every dep bump is cheap and catches
+# breaking-changes-in-minor that automated tools miss.
+
+version: 2
+
+updates:
+  # ── Workspace root ──────────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps)'
+    labels:
+      - dependencies
+      - workspace-root
+    groups:
+      # Group dev-only tooling so a single PR covers the toolchain.
+      dev-toolchain:
+        patterns:
+          - 'typescript'
+          - 'vitest'
+
+  # ── Server template package ─────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /packages/server-template
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps)'
+      include: scope
+    labels:
+      - dependencies
+      - server-template
+    groups:
+      mcp-sdk:
+        patterns:
+          - '@modelcontextprotocol/*'
+      types:
+        patterns:
+          - '@types/*'
+
+  # ── Client SDK package ──────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /packages/client
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: UTC
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: 'chore(deps)'
+      include: scope
+    labels:
+      - dependencies
+      - client-sdk
+    groups:
+      types:
+        patterns:
+          - '@types/*'
+
+  # ── In-memory example ──────────────────────────────────────────
+  - package-ecosystem: npm
+    directory: /examples/in-memory
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: UTC
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: 'chore(deps)'
+      include: scope
+    labels:
+      - dependencies
+      - example
+
+  # ── GitHub Actions ──────────────────────────────────────────────
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '07:00'
+      timezone: UTC
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: 'chore(ci)'
+    labels:
+      - dependencies
+      - github-actions

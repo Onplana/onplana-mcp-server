@@ -1,0 +1,18 @@
+# Drive contributors to the right channel from the very first click.
+#
+# - Security issues NEVER land in the public issue tracker (see SECURITY.md).
+# - "How do I…?" questions go to Discussions if enabled, or stay as
+#   regular `question`-labelled issues otherwise.
+# - The Onplana platform itself (api.onplana.com, the SaaS app) has its
+#   own support channel; this repo is for the open-source packages only.
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Onplana/onplana-mcp-server/blob/main/SECURITY.md
+    about: 'Found a security issue? Email security@onplana.com — do NOT open a public issue.'
+  - name: Onplana platform support
+    url: https://onplana.com/contact
+    about: 'For questions about the Onplana SaaS product (api.onplana.com), the connection panel, or your account.'
+  - name: Model Context Protocol specification
+    url: https://spec.modelcontextprotocol.io
+    about: "Spec-level questions about MCP itself belong upstream at modelcontextprotocol.io — these packages just implement the spec."
