@@ -1,6 +1,6 @@
 {
   "name": "onplana-mcp-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Open-source MCP server template — Streamable HTTP, Bearer auth, prompt-injection containment. Extracted from Onplana's production MCP.",
   "license": "MIT",
   "type": "module",

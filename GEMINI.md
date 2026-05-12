@@ -18,7 +18,7 @@ token minted at <https://app.onplana.com/integrations?tab=ai-agents>
 (scope: `MCP_AGENT`). Tokens are per-user + per-org; the server
 enforces org-scoped row-level isolation on every call.
 
-## Tool catalog (27 tools, May 2026)
+## Tool catalog (29 tools, May 2026 — 16 read + 13 write)
 
 **Reads** (`readOnlyHint: true`):
 - `list_projects`, `get_project`, `list_tasks`, `get_task`,
@@ -28,6 +28,10 @@ enforces org-scoped row-level isolation on every call.
   BM25 + vector search)
 - `summarize_project`, `analyze_project_risks`,
   `generate_status_report` (AI-synthesized)
+- `search`, `fetch` — App Directory adapter pair (returns the
+  strict {id,title,snippet?,url?} / {id,title,content,url?,metadata?}
+  shape OpenAI's reviewer enforces; thin wrappers over
+  search_org_knowledge + per-type Prisma reads)
 
 **Additive writes** (`destructiveHint: false`):
 - `create_project`, `create_task`, `create_milestone`,

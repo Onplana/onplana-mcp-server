@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Onplana/mcp-server",
   "title": "Onplana",
-  "description": "Connect Claude, Cursor, ChatGPT, Gemini, and Copilot to Onplana. 27 tools, OAuth + PAT auth.",
-  "version": "0.2.0",
+  "description": "Connect Claude, Cursor, ChatGPT, Gemini, and Copilot to Onplana. 29 tools, OAuth + PAT auth.",
+  "version": "0.2.2",
   "repository": {
     "url": "https://github.com/Onplana/onplana-mcp-server",
     "source": "github"
