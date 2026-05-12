@@ -13,6 +13,7 @@ deployment. Two packages:
 
 [![CI](https://github.com/Onplana/onplana-mcp-server/workflows/CI/badge.svg)](https://github.com/Onplana/onplana-mcp-server/actions)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![SafeSkill 94/100](https://img.shields.io/badge/SafeSkill-94%2F100_Verified%20Safe-brightgreen)](https://safeskill.dev/scan/onplana-onplana-mcp-server)
 
 ## What this is
 
