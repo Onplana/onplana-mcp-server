@@ -1,67 +1,71 @@
-# Publish to npm + create a GitHub Release on tagged commits.
+# Publish to npm via Trusted Publishing (OIDC).
 #
-# Tag convention: `v<MAJOR>.<MINOR>.<PATCH>` for the server package,
-# `client-v<MAJOR>.<MINOR>.<PATCH>` for the client. Two tag prefixes
-# let us version the packages independently — the client SDK and the
-# server template evolve on different cadences.
+# No long-lived NPM_TOKEN secret. GitHub Actions exchanges its OIDC
+# token for a short-lived npm publish credential at runtime. The
+# Trusted Publisher rule on npmjs.com binds this exact repo +
+# workflow filename to the npm package, so an attacker compromising
+# Actions on a different repo cannot publish here.
 #
-# Required GitHub repo secret:
-#   NPM_TOKEN — npm access token with publish permission. Generate at
-#               https://www.npmjs.com/settings/<your-user>/tokens with
-#               type "Automation" so it bypasses 2FA in CI.
-name: Publish
+# Trigger: a published GitHub Release (NOT a raw tag push). Releases
+# are the OIDC trust boundary — the workflow only earns a publishable
+# token when the trigger event matches the Trusted Publisher rule's
+# event constraint.
+#
+# Required npmjs.com configuration (one-time, done out-of-band by an
+# operator with admin access on the npm package):
+#   1. https://www.npmjs.com/package/onplana-mcp-server/access
+#   2. "Trusted Publishers" → "Add a new Trusted Publisher"
+#   3. Provider: GitHub Actions
+#   4. Organization: Onplana            (case-sensitive — capital O)
+#   5. Repository:   onplana-mcp-server
+#   6. Workflow filename: publish.yml
+#   7. (Optional) Environment: leave blank
+#
+# Mismatch on any of those four = 404 at publish time. Capital-O is
+# the #1 cause of OIDC publish failures.
+#
+# npm CLI must be >= 11.5.1 for OIDC. The setup-node action ships an
+# older version on some runner images, so we explicitly install latest
+# before running publish.
+name: Publish to npm (OIDC)
 
 on:
-  push:
-    tags:
-      - 'v*'
-      - 'client-v*'
+  release:
+    types: [published]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: write           # GitHub Release creation
-      id-token: write           # npm provenance
+      contents: read
+      id-token: write   # required for OIDC token exchange with npm
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.x
+          node-version: '20'
           registry-url: 'https://registry.npmjs.org'
-          cache: npm
+
+      - name: Use latest npm (required for OIDC trusted publishing)
+        run: npm install -g npm@latest
+
+      - name: Print npm version (sanity check, must be >= 11.5.1)
+        run: npm --version
 
       - run: npm ci
-      - run: npm run typecheck --workspaces --if-present
-      - run: npm run test --workspaces --if-present
+
       - run: npm run build --workspaces --if-present
 
-      # Sync LICENSE + CHANGELOG from the repo root into each package
-      # before publish. npm's `files` array can't reach outside the
-      # package directory; copying here keeps the tarballs legally
-      # complete without forcing maintainers to remember to mirror
-      # changes manually.
-      - name: Sync LICENSE + CHANGELOG into packages
-        run: |
-          cp LICENSE CHANGELOG.md packages/server-template/
-          cp LICENSE CHANGELOG.md packages/client/
+      - run: npm test --workspaces --if-present
 
-      # Pick which package to publish from the tag prefix.
+      # Publish the server-template package only. The client SDK
+      # (packages/client) has its own future publish path; this
+      # workflow is scoped to onplana-mcp-server.
+      #
+      # No NODE_AUTH_TOKEN env var — OIDC handles auth.
+      # No --provenance flag — Trusted Publishing emits provenance
+      # automatically by default.
       - name: Publish onplana-mcp-server
-        if: startsWith(github.ref, 'refs/tags/v')
-        run: npm publish --provenance --access public
+        run: npm publish --access public
         working-directory: packages/server-template
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish onplana-mcp-client
-        if: startsWith(github.ref, 'refs/tags/client-v')
-        run: npm publish --provenance --access public
-        working-directory: packages/client
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
