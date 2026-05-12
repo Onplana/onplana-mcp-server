@@ -1,7 +1,7 @@
 {
   "name": "onplana-mcp-server",
-  "version": "0.1.0",
-  "description": "Open-source MCP server template with security best practices — Streamable HTTP transport, Bearer auth, prompt-injection containment, pluggable dispatcher. Extracted from Onplana's production MCP deployment.",
+  "version": "0.2.2",
+  "description": "Open-source MCP server template — Streamable HTTP, Bearer auth, prompt-injection containment. Extracted from Onplana's production MCP.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -12,29 +12,39 @@
       "import": "./dist/index.js"
     }
   },
-  "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "build":     "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test":      "vitest run",
+    "test": "vitest run",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "onplana",
+    "project-management",
+    "ai-agent",
     "anthropic",
     "claude",
     "cursor",
     "express",
     "typescript",
     "prompt-injection",
-    "ai-agents",
-    "onplana"
+    "ai-agents"
   ],
   "homepage": "https://github.com/Onplana/onplana-mcp-server#readme",
   "repository": {
     "type": "git",
-    "url":  "git+https://github.com/Onplana/onplana-mcp-server.git",
+    "url": "git+https://github.com/Onplana/onplana-mcp-server.git",
     "directory": "packages/server-template"
   },
   "bugs": {
@@ -46,11 +56,11 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
-    "@types/node":    "^22.0.0",
-    "supertest":      "^7.0.0",
+    "@types/node": "^22.0.0",
+    "supertest": "^7.0.0",
     "@types/supertest": "^6.0.2",
-    "typescript":     "^5.6.3",
-    "vitest":         "^2.1.9"
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.9"
   },
   "peerDependencies": {
     "express": "^4.18.0 || ^5.0.0"
