@@ -1,7 +1,7 @@
 {
   "name": "onplana-mcp-server",
   "version": "0.1.0",
-  "description": "Open-source MCP server template with security best practices — Streamable HTTP transport, Bearer auth, prompt-injection containment, pluggable dispatcher. Extracted from Onplana's production MCP deployment.",
+  "description": "Open-source MCP server template — Streamable HTTP, Bearer auth, prompt-injection containment. Extracted from Onplana's production MCP.",
   "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
@@ -13,6 +13,9 @@
     }
   },
   "files": ["dist", "README.md", "LICENSE", "CHANGELOG.md"],
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build":     "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
@@ -22,14 +25,16 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "onplana",
+    "project-management",
+    "ai-agent",
     "anthropic",
     "claude",
     "cursor",
     "express",
     "typescript",
     "prompt-injection",
-    "ai-agents",
-    "onplana"
+    "ai-agents"
   ],
   "homepage": "https://github.com/Onplana/onplana-mcp-server#readme",
   "repository": {
