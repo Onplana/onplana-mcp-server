@@ -38,7 +38,7 @@
     "url": "https://github.com/Onplana/onplana-mcp-server/issues"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.7.0",
     "typescript":  "^5.6.3",
     "vitest":      "^2.1.9"
   }
