@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.Onplana/mcp-server",
   "title": "Onplana",
-  "description": "Project portfolio management for PMOs and operations teams — projects, tasks, sprints, risks, comments, and wiki, with hybrid BM25 + vector search across an organization's indexed content. Built as a Microsoft Project Online alternative ahead of its September 2026 retirement. OAuth 2.1 with Dynamic Client Registration (RFC 7591) or Personal Access Token auth, server-side plan and role gating, audited end to end, soft-deletes only.",
-  "version": "0.2.2",
+  "description": "Project portfolio management for PMOs. Alternative to Microsoft Project Online. OAuth + PAT.",
+  "version": "0.2.4",
   "repository": {
     "url": "https://github.com/Onplana/onplana-mcp-server",
     "source": "github"
