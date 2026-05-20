@@ -3,7 +3,7 @@
   "name": "io.github.Onplana/mcp-server",
   "title": "Onplana",
   "description": "Connect Claude, Cursor, ChatGPT, Gemini, and Copilot to Onplana. 29 tools, OAuth + PAT auth.",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "repository": {
     "url": "https://github.com/Onplana/onplana-mcp-server",
     "source": "github"
