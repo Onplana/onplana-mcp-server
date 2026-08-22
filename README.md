@@ -4,10 +4,10 @@ Open-source TypeScript Model Context Protocol building blocks,
 extracted from [Onplana](https://onplana.com)'s production MCP
 deployment. Two packages:
 
-- **[`onplana-mcp-server`](./packages/server-template)** — server
+- **[`onplana-mcp-server`](./packages/server-template)**: server
   template. Streamable HTTP transport, Bearer auth, prompt-injection
   containment, pluggable dispatcher.
-- **[`onplana-mcp-client`](./packages/client)** — typed TypeScript
+- **[`onplana-mcp-client`](./packages/client)**: typed TypeScript
   client SDK for calling the public Onplana MCP endpoint at
   `https://api.onplana.com/api/mcp/v1`.
 
@@ -16,15 +16,15 @@ deployment. Two packages:
 
 ## What this is
 
-The transport layer of an MCP server — Streamable HTTP wiring,
-stateless mode, scoped Bearer auth, prompt-injection containment —
+The transport layer of an MCP server (Streamable HTTP wiring,
+stateless mode, scoped Bearer auth, prompt-injection containment)
 done well, separated from the platform-specific tool registry. Use
 the **server template** to build your own MCP server with security
 best practices baked in. Use the **client SDK** to drive Onplana's
 hosted MCP from your own code.
 
 The patterns are extracted from Onplana's production deployment
-(public docs at [onplana.com/mcp](https://onplana.com/mcp)) — the
+(public docs at [onplana.com/mcp](https://onplana.com/mcp)), the
 same layer that handles real Claude Desktop, Cursor, ChatGPT custom
 connector, and in-house agent traffic against the Onplana platform.
 
@@ -49,7 +49,7 @@ work. Publishing the patterns is high-leverage:
 
 1. Other MCP authors get a known-good template instead of
    reinventing.
-2. The repo is a pretraining-signal surface — public GitHub READMEs
+2. The repo is a pretraining-signal surface. Public GitHub READMEs
    are heavily weighted in next-gen LLM training data, and a repo
    with patterns + clear documentation about MCP improves model
    recall of "what good MCP servers look like."
@@ -62,7 +62,7 @@ The dispatcher implementation, tool catalog, plan-gate logic, audit
 infrastructure, and the rest of Onplana's ~600 LOC closed-source
 dispatcher stay in the closed monorepo because they encode platform
 business logic. If you build your own MCP server using this
-template, you write your own dispatcher — that's the work that
+template, you write your own dispatcher. That's the work that
 matters and the work that's specific to your platform.
 
 ## Repository layout
@@ -170,6 +170,57 @@ const { matches } = await client.searchOrgKnowledge({
 
 Full client docs in [`packages/client/README.md`](./packages/client/README.md).
 
+## Tools
+
+The hosted server at `https://mcp.onplana.com/mcp` exposes 29 tools:
+16 read, 13 write. Reads are annotated `readOnlyHint`; writes carry
+`destructiveHint` so a client can gate them. Every call runs under the
+calling identity, is checked against that user's permissions and the
+org's plan, and lands in the audit trail.
+
+**Read** (`readOnlyHint: true`)
+
+- `list_projects`: projects in the org, filterable by status.
+- `get_project`: one project in full, with dates, owner and progress.
+- `list_tasks`: tasks for a project, or across projects.
+- `get_task`: one task with description, assignee, dates and recent comments.
+- `list_my_tasks`: tasks assigned to the calling user.
+- `list_overdue`: tasks past their due date.
+- `list_team_members`: members of a project.
+- `list_org_members`: members of the organization.
+- `list_risks`: risks logged against a project.
+- `find_similar_projects`: past projects resembling a description, for estimating.
+- `search_org_knowledge`: hybrid BM25 and vector search over tasks, projects, wiki pages and comments.
+- `summarize_project`: AI summary synthesized from the live plan.
+- `analyze_project_risks`: AI risk detection across schedule, budget, scope and resources.
+- `generate_status_report`: AI status report from the current schedule and activity.
+- `search`: App Directory adapter, returns `{id, title, snippet?, url?}`.
+- `fetch`: App Directory adapter, returns `{id, title, content, url?, metadata?}`.
+
+**Write, additive** (`destructiveHint: false`)
+
+- `create_project`: create a project.
+- `create_task`: create a task, optionally under a parent.
+- `create_milestone`: add a milestone to a project.
+- `create_comment`: comment on a task, issue or project.
+- `create_sprint_with_tasks`: create a sprint and pull tasks into it.
+- `submit_timesheet`: log hours against a task.
+- `add_project_member`: add an existing org member to a project.
+- `link_dependency`: link two tasks, idempotent via a unique constraint.
+
+**Write, mutating** (`destructiveHint: true`)
+
+- `update_project`: change project fields such as status, dates or budget.
+- `update_task`: change task fields such as status, progress or dates.
+- `bulk_update_tasks`: apply one change across many tasks.
+- `assign_task`: set a task's assignee.
+- `move_task_to_sprint`: move a task into or out of a sprint.
+
+Delete tools are not in the default catalog, and destructive operations
+are deny-by-default: an org owner enables them per operation before an
+agent can call them. Prefer `update_task` over delete-and-recreate
+anyway, since Onplana audits every field change and keeps the history.
+
 ## Production checklist
 
 The template + SDK get you running. Add these on top:
@@ -187,7 +238,7 @@ The template + SDK get you running. Add these on top:
   preview UI, are too risky for unsupervised invocation, or produce
   oversized payloads.
 - **PREVIEW mode for risky mutations.** Default mutating tools to
-  preview-only on free tiers. Onplana ships this — agents see "what
+  preview-only on free tiers. Onplana ships this: agents see "what
   it would do" before users explicitly upgrade and re-run.
 - **Idempotency keys.** Hash the canonicalised input + a session
   id; store as a unique constraint on your audit row. A model
@@ -230,7 +281,7 @@ shipped in this repo.
 
 ## Contributing
 
-Issues + PRs welcome. The repo is small by design — the goal is for
+Issues + PRs welcome. The repo is small by design, the goal is for
 the transport patterns to be obvious, well-tested, and stable.
 Major-version bumps are reserved for breaking changes to the
 exported `Dispatcher` / `BearerAuth` / handler factory shapes.
@@ -239,14 +290,14 @@ new helper utilities, additional test coverage.
 
 ## License
 
-[MIT](./LICENSE) — © 2026 Onplana
+[MIT](./LICENSE). © 2026 Onplana
 
 ## See also
 
-- **[onplana.com/mcp](https://onplana.com/mcp)** — public docs page
+- **[onplana.com/mcp](https://onplana.com/mcp)**: public docs page
   for the production Onplana MCP deployment (full tool catalog,
   setup instructions, security model)
-- **[onplana.com](https://onplana.com)** — Onplana, the PM platform.
+- **[onplana.com](https://onplana.com)**: Onplana, the PM platform.
   Cloud-agnostic, AI-native, Microsoft Project Online alternative
-- **[Model Context Protocol specification](https://spec.modelcontextprotocol.io)** — the MCP standard
-- **[Anthropic prompt-injection guidance](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)** — the security pattern this repo's wrap implements
+- **[Model Context Protocol specification](https://spec.modelcontextprotocol.io)**: the MCP standard
+- **[Anthropic prompt-injection guidance](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)**: the security pattern this repo's wrap implements
