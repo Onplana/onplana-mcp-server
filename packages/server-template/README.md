@@ -25,7 +25,7 @@ Node.js / Express:
 
 This is the platform-agnostic layer. Onplana's full production MCP
 server adds plan gating, per-month tool caps, idempotency tracking,
-audit logging, undo metadata, and an org-scoped cost cap on top —
+audit logging, undo metadata, and an org-scoped cost cap on top,
 all built using this same template as the foundation.
 
 ## Why a template, not a framework
@@ -34,7 +34,7 @@ The transport is the same for everyone. The dispatcher (your tool
 registry, your business rules) is yours. This library does the
 transport + security primitives well so you don't have to figure out
 the SDK surface, stateless-mode wiring, or prompt-injection containment
-patterns from scratch — and gets out of your way for the parts that
+patterns from scratch, and gets out of your way for the parts that
 are platform-specific.
 
 ## Install
@@ -59,7 +59,7 @@ import {
 
 // 1. Implement your dispatcher. This is where your tool registry
 //    lives. Apply plan gates, role permissions, idempotency, audit,
-//    etc. here — the transport doesn't care, it just calls these
+//    etc. here. The transport doesn't care, it just calls these
 //    two methods.
 const dispatcher: Dispatcher = {
   async listTools(ctx) {
@@ -125,7 +125,7 @@ that Onplana uses in its production deployment:
 - **Rate limiting** per token. Agentic loops can fire hundreds of
   calls per minute. A 60–120 req/min ceiling per Bearer token
   prevents a misbehaving agent from saturating your API. The MCP
-  rate limit should be stricter than your standard API limit —
+  rate limit should be stricter than your standard API limit,
   agents are noisier than humans.
 - **Cost cap** at the tenant level if your tools call paid LLMs.
   The transport shouldn't know about cost; your dispatcher's
@@ -139,7 +139,7 @@ that Onplana uses in its production deployment:
   in-app version of a tool may have UI affordances (preview
   rendering, confirmation dialogs) that an external agent doesn't
   have. Curate to the subset that's safe for unsupervised
-  invocation. Onplana exposes 21 of 26 tools.
+  invocation. Onplana exposes 285 of its 308 registered tools.
 - **PREVIEW mode for risky mutations.** A `delete_*` tool dispatched
   by an LLM can do real damage. Pattern: dispatcher returns a
   PREVIEW result on FREE / STARTER plans (or for any tool whose
@@ -218,7 +218,7 @@ MCP is enabled), and the official MCP Inspector.
 
 ## See also
 
-- [Onplana's MCP server](https://onplana.com/mcp) — the canonical
+- [Onplana's MCP server](https://onplana.com/mcp), the canonical
   consumer of this template
 - [Model Context Protocol specification](https://spec.modelcontextprotocol.io)
 - [Anthropic's prompt-injection guidance](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)

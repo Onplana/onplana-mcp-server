@@ -1,0 +1,35 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "onplana",
+  "owner": {
+    "name": "Onplana",
+    "email": "support@onplana.com",
+    "url": "https://onplana.com"
+  },
+  "description": "Onplana plugins for Claude Code. Project planning and autonomous execution against the Onplana MCP server.",
+  "plugins": [
+    {
+      "name": "onplana",
+      "source": "./plugins/onplana",
+      "displayName": "Onplana",
+      "description": "Plan and run projects in Onplana from Claude Code. Ships the Onplana project-planning and autonomous-agent skills, plus a command that connects the Onplana MCP server.",
+      "author": {
+        "name": "Onplana",
+        "email": "support@onplana.com",
+        "url": "https://onplana.com"
+      },
+      "homepage": "https://onplana.com/mcp",
+      "repository": "https://github.com/Onplana/onplana-mcp-server",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "project-management",
+        "planning",
+        "tasks",
+        "gantt",
+        "mcp",
+        "agents"
+      ]
+    }
+  ]
+}

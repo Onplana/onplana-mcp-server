@@ -1,4 +1,4 @@
-# Onplana — Gemini context
+# Onplana, Gemini context
 
 Gemini CLI and Gemini Code Assist load this file as additional
 context when the Onplana extension is active. Treat it as a system
@@ -18,7 +18,7 @@ token minted at <https://app.onplana.com/integrations?tab=ai-agents>
 (scope: `MCP_AGENT`). Tokens are per-user + per-org; the server
 enforces org-scoped row-level isolation on every call.
 
-## Tool catalog (29 tools, May 2026 — 16 read + 13 write)
+## Tool catalog (285 tools; the 29 below are the ones worth knowing first)
 
 **Reads** (`readOnlyHint: true`):
 - `list_projects`, `get_project`, `list_tasks`, `get_task`,
@@ -28,7 +28,7 @@ enforces org-scoped row-level isolation on every call.
   BM25 + vector search)
 - `summarize_project`, `analyze_project_risks`,
   `generate_status_report` (AI-synthesized)
-- `search`, `fetch` — App Directory adapter pair (returns the
+- `search`, `fetch`, the App Directory adapter pair (returns the
   strict {id,title,snippet?,url?} / {id,title,content,url?,metadata?}
   shape OpenAI's reviewer enforces; thin wrappers over
   search_org_knowledge + per-type Prisma reads)
@@ -49,9 +49,9 @@ enforces org-scoped row-level isolation on every call.
   `cmodhgxpz014w7qyuma8fra2t`) but rarely memorable.
 - **Use `search_org_knowledge`** for cross-org queries like "find
   notes about the API migration" or "what was the rationale for
-  the 3-week design phase?" — it scores against tasks, projects,
+  the 3-week design phase?". It scores against tasks, projects,
   wiki pages, and comments by similarity.
-- **Prefer `update_task` over `delete_task` + recreate** — Onplana
+- **Prefer `update_task` over `delete_task` + recreate.** Onplana
   audits every field change and preserves a full history. Delete
   is not exposed via MCP in v1.
 - **Plan tier gates some tools.** If you get a `feature: 'xxx'`

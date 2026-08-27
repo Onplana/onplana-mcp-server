@@ -86,8 +86,15 @@ onplana-mcp-server/
 │       │   └── index.ts
 │       ├── tests/              # client.test.ts (stub fetch)
 │       └── README.md
+├── .claude-plugin/
+│   └── marketplace.json        # Claude Code marketplace
+├── plugins/
+│   └── onplana/                # Claude Code plugin (skills + connect command)
 ├── examples/
 │   └── in-memory/              # Runnable demo with 3 toy tools
+├── gemini-extension.json       # Gemini CLI manifest
+├── mcp.json                    # stdio client config (mcp-remote)
+├── server.json                 # MCP registry manifest
 └── .github/workflows/
     ├── ci.yml                  # tsc + vitest on PR
     └── publish.yml             # npm publish on tag v*
@@ -172,11 +179,18 @@ Full client docs in [`packages/client/README.md`](./packages/client/README.md).
 
 ## Tools
 
-The hosted server at `https://mcp.onplana.com/mcp` exposes 29 tools:
-16 read, 13 write. Reads are annotated `readOnlyHint`; writes carry
-`destructiveHint` so a client can gate them. Every call runs under the
-calling identity, is checked against that user's permissions and the
-org's plan, and lands in the audit trail.
+The hosted server at `https://mcp.onplana.com/mcp` exposes 285 tools,
+spanning projects, tasks, sprints, milestones, earned value, risks,
+issues, governance, change control, timesheets, wikis, whiteboards,
+workflows and the Microsoft Graph integrations. The exact number a given
+client sees is smaller, because tools are filtered by the caller's role
+and the organization's plan before the catalog is served.
+
+The 33 below are the ones worth knowing first, not the whole catalog.
+Reads are annotated `readOnlyHint`; writes carry `destructiveHint` so a
+client can gate them. Every call runs under the calling identity, is
+checked against that user's permissions and the org's plan, and lands in
+the audit trail.
 
 **Read** (`readOnlyHint: true`)
 
@@ -216,10 +230,26 @@ org's plan, and lands in the audit trail.
 - `assign_task`: set a task's assignee.
 - `move_task_to_sprint`: move a task into or out of a sprint.
 
+**Leases** (for agents that share a backlog)
+
+- `next_task`: pick the next available task and claim it in one call.
+  Listing and then claiming leaves a gap two agents can both land in.
+- `claim_task`: take an exclusive lease on a specific task.
+- `renew_task_lease`: extend a lease while the work is still running.
+- `release_task`: hand the lease back; completing or blocking a task
+  releases it too, and ending a session releases everything that run holds.
+
+A lease is keyed to the RUN, not to the user. Two sessions of one client
+authenticate as the same agent persona, so a user-keyed lock would let
+one session release the other's work. Leases expire on their own, so a
+crashed agent frees its task instead of holding it.
+
 Delete tools are not in the default catalog, and destructive operations
 are deny-by-default: an org owner enables them per operation before an
-agent can call them. Prefer `update_task` over delete-and-recreate
-anyway, since Onplana audits every field change and keeps the history.
+agent can call them. The ones that can be enabled are recoverable, moving
+to a recycle bin rather than being destroyed. Prefer `update_task` over
+delete-and-recreate anyway, since Onplana audits every field change and
+keeps the history.
 
 ## Production checklist
 
@@ -257,12 +287,48 @@ implements them however your platform encodes those concepts.
 
 Tested against:
 
+- Claude Code (plugin marketplace, or `claude mcp add --transport http`)
 - Claude Desktop (Custom Connector)
 - Cursor (`~/.cursor/mcp.json`)
 - ChatGPT custom connectors (where MCP is enabled in your account)
 - Gemini CLI + Gemini Code Assist (`~/.gemini/settings.json`)
 - GitHub Copilot in VS Code (`.vscode/mcp.json`)
 - The official [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+
+## Install in Claude Code
+
+The repo doubles as a Claude Code plugin marketplace, so installing is
+two commands:
+
+```bash
+/plugin marketplace add Onplana/onplana-mcp-server
+/plugin install onplana@onplana
+```
+
+Then attach the server:
+
+```bash
+/onplana-connect
+```
+
+That runs `claude mcp add --transport http onplana
+https://mcp.onplana.com/mcp` and walks you through the browser sign-in.
+The MCP server is available on every Onplana plan, including the free
+one.
+
+The plugin ships the two Onplana agent skills, invoked as
+`onplana:<name>`:
+
+| Skill | Use it when |
+|---|---|
+| `onplana-project-planner` | You have a goal or a brief and want an executable plan: a plan document attached to the project, then a task tree with dates, dependencies, owners and test cases. |
+| `onplana-autonomous-agent` | A plan already exists and you want it run: claim a task, work it, record progress and evidence, resolve or hand it back, then take the next one. |
+
+The plugin manifest deliberately declares no MCP server. A plugin
+declares servers in the stdio form (`command`, `args`, `env`), and
+Onplana's is remote and OAuth-authenticated, so `/onplana-connect`
+attaches it at runtime through Claude Code's native HTTP transport
+rather than routing it through a stdio shim.
 
 ## Install in Gemini CLI
 
