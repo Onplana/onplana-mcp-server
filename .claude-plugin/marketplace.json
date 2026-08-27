@@ -12,7 +12,7 @@
       "name": "onplana",
       "source": "./plugins/onplana",
       "displayName": "Onplana",
-      "description": "Plan and run projects in Onplana from Claude Code. Ships the Onplana project-planning and autonomous-agent skills, plus a command that connects the Onplana MCP server.",
+      "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, plus /onplana-connect to attach the Onplana MCP server.",
       "author": {
         "name": "Onplana",
         "email": "support@onplana.com",
