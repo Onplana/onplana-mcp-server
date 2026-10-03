@@ -2,8 +2,8 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "onplana",
   "displayName": "Onplana",
-  "version": "1.0.0",
-  "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, plus /onplana-connect to attach the Onplana MCP server.",
+  "version": "1.0.1",
+  "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, and connects to the Onplana MCP server, with /onplana-connect to sign in.",
   "author": {
     "name": "Onplana",
     "email": "support@onplana.com",
@@ -14,10 +14,19 @@
   "license": "MIT",
   "keywords": [
     "project-management",
-    "planning",
-    "tasks",
+    "project-planning",
     "gantt",
-    "mcp",
-    "agents"
-  ]
+    "scheduling",
+    "critical-path",
+    "task-management",
+    "dependencies",
+    "ms-project",
+    "resource-planning",
+    "autonomous-agents"
+  ],
+  "icon": "./icon.png",
+  "documentationUrl": "https://docs.onplana.com/ai-agents/connect-an-external-agent/",
+  "supportUrl": "https://onplana.com/support",
+  "privacyPolicyUrl": "https://onplana.com/privacy",
+  "termsOfServiceUrl": "https://onplana.com/terms"
 }

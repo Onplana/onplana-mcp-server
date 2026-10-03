@@ -12,7 +12,7 @@
       "name": "onplana",
       "source": "./plugins/onplana",
       "displayName": "Onplana",
-      "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, plus /onplana-connect to attach the Onplana MCP server.",
+      "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, and connects to the Onplana MCP server, with /onplana-connect to sign in.",
       "author": {
         "name": "Onplana",
         "email": "support@onplana.com",
@@ -24,11 +24,15 @@
       "category": "productivity",
       "keywords": [
         "project-management",
-        "planning",
-        "tasks",
+        "project-planning",
         "gantt",
-        "mcp",
-        "agents"
+        "scheduling",
+        "critical-path",
+        "task-management",
+        "dependencies",
+        "ms-project",
+        "resource-planning",
+        "autonomous-agents"
       ]
     }
   ]

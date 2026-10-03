@@ -9,14 +9,19 @@ Plan and run projects in [Onplana](https://onplana.com) without leaving Claude C
 /plugin install onplana@onplana
 ```
 
-Then connect the server:
+The plugin brings the Onplana MCP server (`https://mcp.onplana.com/mcp`) with
+it. Sign in once:
 
 ```bash
 /onplana-connect
 ```
 
-That adds `https://mcp.onplana.com/mcp` and walks you through the browser
-sign-in. The MCP server is available on every plan, including the free one.
+That walks you through the browser sign-in and checks the connection works.
+You can also run `/mcp`, choose the Onplana server and sign in there. The MCP
+server is available on every plan, including the free one.
+
+On claude.ai and in Cowork, the server appears on the plugin's **Connectors**
+tab, where you connect it and sign in.
 
 ## What you get
 
@@ -31,12 +36,18 @@ Plus roughly 265 MCP tools once connected, scoped to the organization you sign
 in as and filtered by your own role and plan. Writes go through the same
 permission checks the web app uses, and every one is audited.
 
-## Why the MCP server is not in the manifest
+## Data
 
-A plugin manifest declares MCP servers in the stdio form (`command`, `args`,
-`env`). Onplana's server is remote and OAuth-authenticated, so `/onplana-connect`
-attaches it at runtime instead. Anthropic's own listed integrations for hosted
-products take the same approach.
+The plugin adds one remote MCP server, `https://mcp.onplana.com/mcp`, declared
+in `.mcp.json`. It runs nothing on your machine. When Claude calls an Onplana
+tool, the tool's arguments (for example a task title, a description, or a
+project id) are sent to that server, which reads or writes your Onplana data as
+the account you signed in with. Sign-in uses OAuth in your browser. Onplana's
+privacy policy is at [onplana.com/privacy](https://onplana.com/privacy).
+
+If you already added `https://mcp.onplana.com/mcp` yourself with
+`claude mcp add`, Claude Code keeps your entry and skips the plugin's, so you
+still get one set of tools.
 
 ## Editing the skills
 

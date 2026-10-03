@@ -305,16 +305,15 @@ two commands:
 /plugin install onplana@onplana
 ```
 
-Then attach the server:
+The plugin brings the server with it, then sign in once:
 
 ```bash
 /onplana-connect
 ```
 
-That runs `claude mcp add --transport http onplana
-https://mcp.onplana.com/mcp` and walks you through the browser sign-in.
-The MCP server is available on every Onplana plan, including the free
-one.
+That walks you through the browser sign-in and checks the connection
+with `whoami`. The MCP server is available on every Onplana plan,
+including the free one.
 
 The plugin ships the two Onplana agent skills, invoked as
 `onplana:<name>`:
@@ -324,11 +323,11 @@ The plugin ships the two Onplana agent skills, invoked as
 | `onplana-project-planner` | You have a goal or a brief and want an executable plan: a plan document attached to the project, then a task tree with dates, dependencies, owners and test cases. |
 | `onplana-autonomous-agent` | A plan already exists and you want it run: claim a task, work it, record progress and evidence, resolve or hand it back, then take the next one. |
 
-The plugin manifest deliberately declares no MCP server. A plugin
-declares servers in the stdio form (`command`, `args`, `env`), and
-Onplana's is remote and OAuth-authenticated, so `/onplana-connect`
-attaches it at runtime through Claude Code's native HTTP transport
-rather than routing it through a stdio shim.
+The plugin declares the server in `plugins/onplana/.mcp.json` as a
+remote HTTP server, so Claude Code connects to it directly with no
+stdio shim. If you already added the same URL with `claude mcp add`,
+Claude Code keeps your entry and skips the plugin's, so there is
+still one set of tools.
 
 ## Install in Gemini CLI
 

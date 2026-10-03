@@ -1,33 +1,34 @@
 ---
-description: Connect Claude Code to the Onplana MCP server, then verify it works
+description: Sign in to the Onplana MCP server, then verify it works
 ---
 
-Connect this Claude Code session to Onplana's MCP server and confirm the
+Sign this Claude Code session in to Onplana's MCP server and confirm the
 connection before reporting success.
 
-## Why this is a command and not part of the manifest
+## How the server gets here
 
-A Claude Code plugin declares MCP servers in the stdio form (`command`, `args`,
-`env`). Onplana's server is remote and OAuth-authenticated at
-`https://mcp.onplana.com/mcp`, so it is attached at runtime instead. Anthropic's
-own listed integrations for hosted products do the same thing.
+The plugin declares the server in its own `.mcp.json`, pointing at
+`https://mcp.onplana.com/mcp`, so installing the plugin is enough to add it.
+It appears in `/mcp` as **plugin:onplana:onplana**. If the person already
+added that URL themselves, Claude Code keeps their entry and treats the
+plugin's as a duplicate, so there is still only one set of tools.
 
 ## Steps
 
-1. Add the server. Prefer `--scope user` so it follows the person rather than one
-   checkout, unless they say they want it only in this project:
+1. Sign in. Ask the person to run `/mcp`, choose the Onplana server, and
+   complete the browser sign-in. The token is issued to the Onplana
+   organization they sign in as, and it lasts 90 days.
+
+2. Verify rather than assume. Call `whoami` and report the account and
+   organization it returns. If the tool list is empty or the call fails, the
+   connection is not usable yet, so say so plainly instead of continuing.
+
+3. Only if the server is missing from `/mcp` (for example, the plugin's
+   server was toggled off), add it by hand, then go back to step 1:
 
    ```bash
    claude mcp add --transport http --scope user onplana https://mcp.onplana.com/mcp
    ```
-
-2. Authenticate. Run `/mcp`, choose **onplana**, and complete the browser
-   sign-in. The token is issued to the Onplana organization the person signs in
-   as, and it lasts 90 days.
-
-3. Verify rather than assume. Call `whoami` and report the account and
-   organization it returns. If the tool list is empty or the call fails, the
-   connection is not usable yet, so say so plainly instead of continuing.
 
 ## What they get
 
