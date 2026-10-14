@@ -13,13 +13,13 @@ in-house agents, scripts, and custom integrations. Wraps the JSON-RPC
 wire format with:
 
 - A generic `callTool<T>(name, args)` for any tool
-- Typed convenience methods for the most-used ones — `listProjects`,
+- Typed convenience methods for the most-used ones: `listProjects`,
   `searchOrgKnowledge`, `createTask`, `listTasks`, `getProject`
 - Clean error types (`OnplanaMcpError`) with HTTP status + Onplana
   error code surfaced
 
 If you're using Claude Desktop, Cursor, or another MCP-aware client,
-you don't need this — those clients speak MCP natively. This SDK is
+you don't need this, because those clients speak MCP natively. This SDK is
 for code that wants to drive Onplana via MCP without writing
 JSON-RPC by hand.
 
@@ -78,7 +78,7 @@ For tools without a typed wrapper, use `callTool<T>`:
 ```ts
 const { output, isError, raw } = await client.callTool<{ projects: any[] }>(
   'find_similar_projects',
-  { description: 'Migrate from Project Online', limit: 5 },
+  { description: 'Launch a customer onboarding portal', limit: 5 },
 )
 
 if (isError) {
@@ -104,7 +104,8 @@ new OnplanaMcpClient({
 })
 ```
 
-For self-hosted Onplana (Enterprise+), point `url` at your backend
+On an Enterprise+ dedicated deployment (one Onplana runs for you in
+your own Azure subscription), point `url` at that deployment's API
 origin: `https://onplana.your-tenant.com/api/mcp/v1`.
 
 ## Errors
@@ -127,7 +128,7 @@ try {
 ```
 
 Tool-level failures (validation, plan gates, idempotency hits) are
-NOT thrown — they come back as `{ isError: true, output: { ... } }`
+NOT thrown. They come back as `{ isError: true, output: { ... } }`
 from `callTool`. Tools are designed to let an LLM see + react to
 those, so the SDK preserves that semantic for symmetry.
 
@@ -143,8 +144,8 @@ those, so the SDK preserves that semantic for symmetry.
 
 ## See also
 
-- [Onplana's MCP server overview](https://onplana.com/mcp) — full
+- [Onplana's MCP server overview](https://onplana.com/mcp): full
   tool catalog + setup instructions for Claude Desktop / Cursor
-- [`onplana-mcp-server`](../server-template) — the open-source
+- [`onplana-mcp-server`](../server-template): the open-source
   server template Onplana's deployment is built on
 - [Model Context Protocol specification](https://spec.modelcontextprotocol.io)

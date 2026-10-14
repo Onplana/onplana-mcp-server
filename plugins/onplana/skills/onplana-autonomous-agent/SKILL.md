@@ -28,9 +28,14 @@ token (PAT)** you mint in Onplana under **Settings → Agents → Connect an age
 (or via browser sign-in / OAuth). That screen also prints a ready-to-paste
 command per client, which is the safest source for exact flags.
 
-- **Claude Code**: copy the generated `claude mcp add onplana ...` command (it
-  embeds your token), or add an HTTP MCP server pointing at the URL with an
-  `Authorization: Bearer <PAT>` header.
+- **Claude Code with the Onplana plugin**: the plugin brings the server with it
+  (it is declared in the plugin's `.mcp.json`), so there is nothing to add. Run
+  `/onplana-connect` once to sign in through the browser and check the
+  connection. If you already added the same URL yourself, Claude Code keeps your
+  entry and you still get one set of tools.
+- **Claude Code without the plugin**: copy the generated `claude mcp add onplana ...`
+  command (it embeds your token), or add an HTTP MCP server pointing at the URL
+  with an `Authorization: Bearer <PAT>` header.
 - **ChatGPT**: add Onplana as an MCP connector (or wire it into a Custom GPT)
   pointing at the same URL with the Bearer PAT.
 - **Codex**: add an `onplana` MCP server to your Codex config with the URL and
@@ -199,6 +204,15 @@ When unsure of an entity's fields or allowed values, ask the server:
   Onplana. Surface it and wait for a human, even in autonomous mode.
 - **Be honest in reports.** If a task failed or was skipped, say so plainly with
   the reason. Never mark something `DONE` you didn't actually finish.
+- **Never invent the deliverable.** When a task asks for content about
+  something you cannot verify from here (a product, a customer, an internal
+  decision), ground it first: `search_org_knowledge`, the project's own
+  documents, the task's linked artifacts. If grounding turns up nothing, do NOT
+  write plausible-looking placeholder content and post it as evidence. That
+  leaves a task marked `DONE` whose comment is fiction, and it is worse than an
+  unfinished task because nothing on the board shows anything is wrong. Instead
+  file an Issue under the project naming what you could not verify, say the same
+  in a comment on the task, leave the task open, and move on to the next one.
 - **Token budget is finite.** AI-heavy tools draw on the org's bundled allowance;
   if you hit a quota wall (`aiQuotaExceeded`), report it and stop the AI calls,
   not the whole run.

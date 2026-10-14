@@ -7,19 +7,19 @@
  *
  * Two surfaces:
  *
- *   1. Generic — `client.listTools()` / `client.callTool(name, args)`.
+ *   1. Generic: `client.listTools()` / `client.callTool(name, args)`.
  *      Maps directly to the MCP wire surface; useful for any tool
  *      including ones we don't ship a typed wrapper for.
  *
- *   2. Convenience — typed wrappers around the most-used Onplana
+ *   2. Convenience: typed wrappers around the most-used Onplana
  *      tools (`listProjects`, `searchOrgKnowledge`, `createTask`, …).
  *      Returns parsed output objects, not the raw `CallToolResult`
  *      JSON-stringified text shape.
  *
  * The SDK is dependency-free (uses `fetch` from the runtime). Works
  * in Node ≥ 18 and modern browsers. No bundled MCP SDK because the
- * client only needs to send POST /mcp requests with JSON-RPC bodies
- * — the wire format is small and stable.
+ * client only needs to send POST /mcp requests with JSON-RPC bodies,
+ * and the wire format is small and stable.
  */
 
 import {
@@ -38,7 +38,8 @@ import {
 export interface OnplanaMcpClientOptions {
   /**
    * Base URL of the MCP endpoint, e.g. `https://api.onplana.com/api/mcp/v1`.
-   * For self-hosted Onplana, point at your backend's API origin.
+   * On an Enterprise+ dedicated deployment, point at that deployment's
+   * API origin.
    */
   url: string
   /**
@@ -54,7 +55,7 @@ export interface OnplanaMcpClientOptions {
    */
   fetch?: typeof fetch
   /**
-   * Request timeout in milliseconds. Default 30,000 (30s) — generous
+   * Request timeout in milliseconds. Default 30,000 (30s), generous
    * because some Onplana tools (`summarize_project`, RAG search)
    * call upstream LLMs that can take several seconds.
    */
@@ -98,11 +99,11 @@ export class OnplanaMcpClient {
 
   /**
    * Invoke a tool. `T` is the parsed-JSON shape of the tool's
-   * `output` payload — the SDK parses the first text block from the
+   * `output` payload. The SDK parses the first text block from the
    * MCP `CallToolResult.content` array.
    *
    * Throws `OnplanaMcpError` on transport failure or non-2xx status.
-   * Returns `{ output, isError, raw }` on success — `isError: true`
+   * Returns `{ output, isError, raw }` on success. `isError: true`
    * means the tool ran but the dispatcher signalled a non-fatal
    * failure (e.g. plan-gated, validation failed, idempotency hit).
    */
@@ -122,7 +123,7 @@ export class OnplanaMcpClient {
     try {
       output = text === null ? ({} as T) : (JSON.parse(text) as T)
     } catch {
-      // Non-JSON text content — return as-is rather than crashing.
+      // Non-JSON text content: return as-is rather than crashing.
       output = (text as unknown) as T
     }
     return { output, isError: !!raw.isError, raw }
@@ -165,7 +166,7 @@ export class OnplanaMcpClient {
 
   /**
    * Hybrid (vector + BM25) semantic search across the org's indexed
-   * content — projects, tasks, risks, goals, comments, wiki pages.
+   * content: projects, tasks, risks, goals, comments, wiki pages.
    * The differentiator vs other PM-tool MCPs.
    */
   async searchOrgKnowledge(args: SearchOrgKnowledgeArgs): Promise<SearchOrgKnowledgeOutput> {

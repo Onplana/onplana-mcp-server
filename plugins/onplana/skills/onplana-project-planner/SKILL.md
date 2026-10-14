@@ -30,7 +30,8 @@ Connection is identical to the execution skill: the server is
 `https://mcp.onplana.com/mcp`, auth is a Bearer **personal access token** minted
 under **Settings → Agents → Connect an agent**. See the `onplana-autonomous-agent`
 skill, section 1, for the per-client setup (Claude Code / ChatGPT / Codex /
-claude.ai).
+claude.ai). In Claude Code with the Onplana plugin installed, the plugin brings
+the server with it: run `/onplana-connect` once to sign in.
 
 Every session, start the same two ways:
 

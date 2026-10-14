@@ -244,10 +244,10 @@ authenticate as the same agent persona, so a user-keyed lock would let
 one session release the other's work. Leases expire on their own, so a
 crashed agent frees its task instead of holding it.
 
-Delete tools are not in the default catalog, and destructive operations
-are deny-by-default: an org owner enables them per operation before an
-agent can call them. The ones that can be enabled are recoverable, moving
-to a recycle bin rather than being destroyed. Prefer `update_task` over
+Four delete tools are in the catalog (a task, a project, a list, a
+document). Each is a per-organization switch that is on until an org admin
+saves a choice, the agent still needs the underlying permission, and all
+four move items to a recycle bin rather than destroying them. Prefer `update_task` over
 delete-and-recreate anyway, since Onplana audits every field change and
 keeps the history.
 
@@ -362,7 +362,7 @@ new helper utilities, additional test coverage.
 - **[onplana.com/mcp](https://onplana.com/mcp)**: public docs page
   for the production Onplana MCP deployment (full tool catalog,
   setup instructions, security model)
-- **[onplana.com](https://onplana.com)**: Onplana, the PM platform.
-  Cloud-agnostic, AI-native, Microsoft Project Online alternative
+- **[onplana.com](https://onplana.com)**: Onplana, the AI-native
+  project and portfolio management platform
 - **[Model Context Protocol specification](https://spec.modelcontextprotocol.io)**: the MCP standard
 - **[Anthropic prompt-injection guidance](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview)**: the security pattern this repo's wrap implements
