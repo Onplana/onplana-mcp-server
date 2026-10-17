@@ -3,7 +3,7 @@
   "name": "io.github.Onplana/mcp-server",
   "title": "Onplana",
   "description": "AI-native project and portfolio management platform for PMOs. OAuth + PAT.",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "repository": {
     "url": "https://github.com/Onplana/onplana-mcp-server",
     "source": "github"
