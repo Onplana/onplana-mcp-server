@@ -1,0 +1,35 @@
+# Publish server.json to the Official MCP Registry (registry.modelcontextprotocol.io).
+#
+# Why OIDC: the registry grants the io.github.Onplana/* namespace to a
+# GitHub Actions run in a repository the Onplana organization owns. The
+# device login (`mcp-publisher login github`) no longer reaches the org
+# namespace for members or admins (2026-10-17: refused for both
+# shoaib0077 and SaimaOnplana), so the run itself is the identity. No
+# secret is stored.
+#
+# Trigger: manual only. Bump "version" in server.json first; a registry
+# version cannot be changed once published, so a fix needs a new version.
+name: Publish to MCP Registry
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write   # the OIDC token the registry exchanges for publish rights
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install mcp-publisher (pinned)
+        run: |
+          curl -sSfL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher --version
+
+      - name: Log in with GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish server.json
+        run: ./mcp-publisher publish
