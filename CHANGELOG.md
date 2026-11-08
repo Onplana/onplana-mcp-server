@@ -6,6 +6,29 @@ Adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added: `onplana` Claude Code plugin 1.2.0
+
+- A **Waiting on you** pane beside the chat, from a hooks module
+  (`plugins/onplana/hooks/register.tsx`, its state contract in
+  `types/index.d.ts`): the signed-in person's `BLOCKED` or `REVIEW` tasks
+  whose newest comment begins "Ready for", and their tasks due today or
+  overdue, grouped and linked. It refreshes on a timer the person sets
+  (default 10 minutes) and on `/onplana-waiting`.
+- A text box in the pane: one line becomes a task in a project picked once
+  (remembered across sessions), a longer text with a task link becomes a
+  comment on that task, and text that reads as a message to a person is
+  refused with a pointer to the mailbox. Nothing is sent to anyone.
+- Reads and writes only through tools the Onplana MCP server already exposes
+  (`whoami`, `list_my_tasks`, `list_comments`, `list_projects`,
+  `create_task`, `create_comment`); no new tool or scope.
+- `tests/waiting.test.tsx` for `claude plugin test`, including a settings
+  value stored in an older shape.
+- `plugin.json` names the contract under `types`. The directory listing
+  fields (`displayName`, `documentationUrl`, `supportUrl`,
+  `privacyPolicyUrl`, `termsOfServiceUrl`, `icon`) stay: the plugins
+  reference lists each one, and `claude plugin validate` 2.1.317 reports
+  none of them as unknown.
+
 ### Added: `onplana` Claude Code plugin 1.1.0
 
 - `/onplana:manager` command and the `onplana-manager` skill: run a small
