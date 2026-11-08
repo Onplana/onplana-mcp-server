@@ -36,7 +36,7 @@ Roughly 265 tools, scoped to the signed-in organization and filtered by that
 person's own role and plan. Reads and writes both go through the same
 permission checks the web app uses, and every write is audited.
 
-Two skills ship with this plugin:
+Three skills ship with this plugin:
 
 - **onplana:onplana-project-planner** turns a goal or a brief into an executable
   plan: a plan document attached to the project, then a task tree with dates,
@@ -44,6 +44,9 @@ Two skills ship with this plugin:
 - **onplana:onplana-autonomous-agent** runs an existing plan: claim a task, work
   it, record progress and evidence, resolve or hand it back, then take the next
   one.
+- **onplana:onplana-manager** runs several coding agents from one board: it
+  never codes, leases each task, names the files each agent touches, reviews by
+  reading the diff and keeps every status honest. `/onplana:manager` starts it.
 
 Suggest the planner skill when they want a plan built, and the autonomous skill
 when a plan already exists and they want it executed.

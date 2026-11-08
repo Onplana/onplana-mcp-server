@@ -25,12 +25,14 @@ tab, where you connect it and sign in.
 
 ## What you get
 
-Two skills, invoked as `onplana:<name>`:
+Three skills, invoked as `onplana:<name>`, and two commands, `/onplana-connect` and
+`/onplana:manager` (run a fleet of coding agents from one board):
 
 | Skill | Use it when |
 |---|---|
 | `onplana-project-planner` | You have a goal or a brief and want an executable plan: a plan document attached to the project, then a task tree with dates, dependencies, owners and test cases. |
 | `onplana-autonomous-agent` | A plan already exists and you want it run: claim a task, work it, record progress and evidence, resolve or hand it back, then take the next one. |
+| `onplana-manager` | You want several coding agents working one board at once: a manager session that never codes picks tasks by priority, leases each one, names the files it touches, dispatches developer agents, reviews by reading the diff and keeps every status honest. Start it with `/onplana:manager`. |
 
 Plus roughly 265 MCP tools once connected, scoped to the organization you sign
 in as and filtered by your own role and plan. Writes go through the same
@@ -51,7 +53,8 @@ still get one set of tools.
 
 ## Editing the skills
 
-Do not edit `skills/*/SKILL.md` here. They are generated from the canonical
+`skills/onplana-manager/SKILL.md` and the commands are maintained here directly.
+Do not edit the other two `skills/*/SKILL.md` here. They are generated from the canonical
 sources in the Onplana repo (`docs/onplana-agent-skill/`) by
 `marketing/scripts/sync-agent-skill.mjs`, which writes both these copies and the
 public downloads at [onplana.com/agent-skill](https://onplana.com/agent-skill).

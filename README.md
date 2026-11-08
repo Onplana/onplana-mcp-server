@@ -315,13 +315,15 @@ That walks you through the browser sign-in and checks the connection
 with `whoami`. The MCP server is available on every Onplana plan,
 including the free one.
 
-The plugin ships the two Onplana agent skills, invoked as
-`onplana:<name>`:
+The plugin ships three Onplana agent skills, invoked as
+`onplana:<name>`, and the `/onplana:manager` command, which runs a
+fleet of coding agents from one Onplana board:
 
 | Skill | Use it when |
 |---|---|
 | `onplana-project-planner` | You have a goal or a brief and want an executable plan: a plan document attached to the project, then a task tree with dates, dependencies, owners and test cases. |
 | `onplana-autonomous-agent` | A plan already exists and you want it run: claim a task, work it, record progress and evidence, resolve or hand it back, then take the next one. |
+| `onplana-manager` | You want several coding agents working one board at once: a manager session that never codes picks tasks by priority, leases each one, names the files it touches, dispatches developer agents, reviews by reading the diff and keeps every status honest. Start it with `/onplana:manager`. |
 
 The plugin declares the server in `plugins/onplana/.mcp.json` as a
 remote HTTP server, so Claude Code connects to it directly with no
