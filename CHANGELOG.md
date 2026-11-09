@@ -6,6 +6,34 @@ Adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed: `onplana` Claude Code plugin 1.2.1
+
+- The Waiting on you pane moved out of the `onplana` plugin into its own
+  plugin, `onplana-waiting`, in the same marketplace. The Claude plugin
+  directory accepts no hooks module (a `modules` entry in a hooks file) and
+  no file other than Markdown, text, JSON, YAML or an image from an
+  organization it has not verified, so it refused 1.2.0 for
+  `hooks/register.tsx`, `types/index.d.ts` and `tests/waiting.test.tsx`.
+- `onplana` is back to the MCP server, the three skills and the two commands
+  (`/onplana-connect`, `/onplana:manager`). `plugin.json` drops `types`; the
+  listing fields stay.
+
+### Added: `onplana-waiting` Claude Code plugin 1.0.0
+
+- The Waiting on you pane and `/onplana-waiting`, as they were in `onplana`
+  1.2.0, installed with `/plugin install onplana-waiting@onplana`.
+- It lists the Onplana MCP server in its own `.mcp.json`, because a hooks
+  module can connect only a server its own plugin lists. The `onplana` plugin
+  lists the same URL, and Claude Code runs a server with the same URL once,
+  so a person with both plugins has one Onplana server and the pane calls it
+  under whatever name the session runs it.
+- Its README states what the hooks module runs, the Onplana tools it calls
+  without the model asking (`whoami`, `list_my_tasks`, `list_comments`,
+  `list_projects`, `create_task`, `create_comment`), what it keeps in the
+  plugin store and that it sends only to the Onplana MCP server.
+- Its state lives under its own name, so a project chosen in `onplana` 1.2.0
+  is chosen once more.
+
 ### Added: `onplana` Claude Code plugin 1.2.0
 
 - A **Waiting on you** pane beside the chat, from a hooks module

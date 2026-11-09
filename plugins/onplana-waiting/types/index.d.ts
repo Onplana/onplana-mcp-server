@@ -48,7 +48,7 @@ export type ProjectChoice = { id: string; name: string }
 
 declare module 'claude-code' {
   interface PluginState {
-    onplana: {
+    'onplana-waiting': {
       view: Shaped<WaitingView>
       settings: Shaped<WaitingSettings>
       note: Shaped<WaitingNote | null>

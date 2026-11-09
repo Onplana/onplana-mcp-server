@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
+  "name": "onplana-waiting",
+  "displayName": "Onplana: Waiting on you",
+  "version": "1.0.0",
+  "description": "A Waiting on you pane beside the chat in Claude Code: your Onplana tasks handed back to you and your tasks due today or overdue, each linked, plus a text box where one line becomes a task and a text with a task link becomes a comment. Open it with /onplana-waiting. Uses the Onplana MCP server, the same one the onplana plugin connects.",
+  "author": {
+    "name": "Onplana",
+    "email": "support@onplana.com",
+    "url": "https://onplana.com"
+  },
+  "homepage": "https://onplana.com/mcp",
+  "repository": "https://github.com/Onplana/onplana-mcp-server",
+  "license": "MIT",
+  "keywords": [
+    "project-management",
+    "task-management",
+    "onplana",
+    "pane"
+  ],
+  "types": "./types/index.d.ts",
+  "icon": "./icon.png",
+  "documentationUrl": "https://github.com/Onplana/onplana-mcp-server/tree/main/plugins/onplana-waiting#readme",
+  "supportUrl": "https://onplana.com/support",
+  "privacyPolicyUrl": "https://onplana.com/privacy",
+  "termsOfServiceUrl": "https://onplana.com/terms"
+}

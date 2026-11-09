@@ -89,7 +89,8 @@ onplana-mcp-server/
 ├── .claude-plugin/
 │   └── marketplace.json        # Claude Code marketplace
 ├── plugins/
-│   └── onplana/                # Claude Code plugin (skills, commands, Waiting on you pane)
+│   ├── onplana/                # Claude Code plugin (skills + commands)
+│   └── onplana-waiting/        # Claude Code plugin (Waiting on you pane)
 ├── examples/
 │   └── in-memory/              # Runnable demo with 3 toy tools
 ├── gemini-extension.json       # Gemini CLI manifest
@@ -325,11 +326,14 @@ fleet of coding agents from one Onplana board:
 | `onplana-autonomous-agent` | A plan already exists and you want it run: claim a task, work it, record progress and evidence, resolve or hand it back, then take the next one. |
 | `onplana-manager` | You want several coding agents working one board at once: a manager session that never codes picks tasks by priority, leases each one, names the files it touches, dispatches developer agents, reviews by reading the diff and keeps every status honest. Start it with `/onplana:manager`. |
 
-It also opens a **Waiting on you** pane beside the chat (`/onplana-waiting`):
-your tasks handed back with "Ready for" and your tasks due today or overdue,
-each linked, plus a text box where one line becomes a task and a longer text
-with a task link becomes a comment. It uses only the server's existing tools;
-see the [plugin README](plugins/onplana/README.md#waiting-on-you-pane).
+A second plugin in the same marketplace, `onplana-waiting`, opens a
+**Waiting on you** pane beside the chat (`/onplana-waiting`): your tasks
+handed back with "Ready for" and your tasks due today or overdue, each
+linked, plus a text box where one line becomes a task and a longer text
+with a task link becomes a comment. Install it with
+`/plugin install onplana-waiting@onplana`. It uses only the server's
+existing tools and lists the same server, which Claude Code runs once;
+see the [pane's README](plugins/onplana-waiting/README.md).
 
 The plugin declares the server in `plugins/onplana/.mcp.json` as a
 remote HTTP server, so Claude Code connects to it directly with no

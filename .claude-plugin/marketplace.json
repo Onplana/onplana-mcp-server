@@ -12,7 +12,7 @@
       "name": "onplana",
       "source": "./plugins/onplana",
       "displayName": "Onplana",
-      "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, a Waiting on you pane beside the chat (/onplana-waiting), and connects to the Onplana MCP server, with /onplana-connect to sign in.",
+      "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, and connects to the Onplana MCP server, with /onplana-connect to sign in.",
       "author": {
         "name": "Onplana",
         "email": "support@onplana.com",
@@ -33,6 +33,27 @@
         "ms-project",
         "resource-planning",
         "autonomous-agents"
+      ]
+    },
+    {
+      "name": "onplana-waiting",
+      "source": "./plugins/onplana-waiting",
+      "displayName": "Onplana: Waiting on you",
+      "description": "A Waiting on you pane beside the chat in Claude Code: your Onplana tasks handed back to you and your tasks due today or overdue, each linked, plus a text box where one line becomes a task and a text with a task link becomes a comment. Open it with /onplana-waiting. Uses the Onplana MCP server, the same one the onplana plugin connects.",
+      "author": {
+        "name": "Onplana",
+        "email": "support@onplana.com",
+        "url": "https://onplana.com"
+      },
+      "homepage": "https://onplana.com/mcp",
+      "repository": "https://github.com/Onplana/onplana-mcp-server",
+      "license": "MIT",
+      "category": "productivity",
+      "keywords": [
+        "project-management",
+        "task-management",
+        "onplana",
+        "pane"
       ]
     }
   ]

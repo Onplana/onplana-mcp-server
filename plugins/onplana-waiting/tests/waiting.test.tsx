@@ -2,7 +2,7 @@ import type { On } from 'claude-code'
 import { expect, mock, test } from 'claude-code/testing'
 
 const PANE = {
-  plugin: 'onplana',
+  plugin: 'onplana-waiting',
   component: 'Pane',
   requestId: 'onplana-waiting',
   props: {
@@ -91,6 +91,7 @@ function answer(tool: string, args: Record<string, unknown>): unknown {
 /** The engine beneath the plugin: an Onplana server that answers from fixtures. */
 function engine(on: On, stored: Record<string, unknown>) {
   const calls: Call[] = []
+  const servers = new Set<string>()
   // The plugin's store, held here so a test reads back what the pane kept.
   const store: Record<string, unknown> = { ...stored }
   const clock = mock.clock(on, { now: NOW })
@@ -103,11 +104,14 @@ function engine(on: On, stored: Record<string, unknown>) {
   on('command.register', (_, e) => ({ value: { command: e.name } }))
   on('ui.open', () => ({ value: { isPlaced: true } }))
   on('session.start', (_, e) => ({ cwd: e.cwd }))
+  // With the onplana plugin installed too, the session runs the one server
+  // under that plugin's name and connect answers with it.
   on('mcp.connect', () => ({
     value: { isConnected: true, server: 'plugin:onplana:onplana' },
   }))
   on('mcp.call', (_, e) => {
     calls.push({ tool: e.tool, args: e.args })
+    servers.add(e.server)
 
     return {
       value: {
@@ -117,7 +121,7 @@ function engine(on: On, stored: Record<string, unknown>) {
     }
   })
 
-  return { calls, clock, store }
+  return { calls, clock, servers, store }
 }
 
 test('an older stored shape keeps nothing it cannot read', async ($, on) => {
@@ -255,4 +259,13 @@ test('the command opens the pane and reads the board', async ($, on) => {
     presentation: { isFullscreen: true, columns: 160 },
   })
   expect(text).toBe('1 ready for you, 2 due today or overdue.')
+})
+
+test('every call goes to the server connect names, not this plugin\'s own key', async ($, on) => {
+  const { calls, clock, servers } = engine(on, {})
+  await $.session.start({ cwd: '/', surface: 'desktop', isInteractive: true })
+  await clock.settle()
+
+  expect(calls.length).toBeGreaterThan(0)
+  expect([...servers]).toEqual(['plugin:onplana:onplana'])
 })

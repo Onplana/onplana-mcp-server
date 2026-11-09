@@ -1,11 +1,18 @@
 // "Waiting on you": a pane beside the chat with the Onplana tasks that wait on
 // the signed-in person, and a text box that files what they paste.
 //
-// Every read and write goes through the Onplana MCP server this plugin already
+// Every read and write goes through the Onplana MCP server this plugin
 // declares in .mcp.json (whoami, list_my_tasks, list_comments, list_projects,
 // create_task, create_comment), with the person's own sign-in. Nothing here
 // sends a message to anyone: text that reads as a message to a person is
 // refused, because a draft belongs in a mailbox, not in a task.
+//
+// This plugin lists the server itself because $.mcp.connect connects only a
+// server in the caller's own manifest (it answers `unlisted` for the onplana
+// plugin's). The onplana plugin lists the same URL; Claude Code runs a server
+// with the same URL once and skips the copy, and connect then answers with the
+// name the session already runs it under, so a person with both plugins has
+// one Onplana server, and calls go to whatever name connect returns.
 
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, McpToolResult, Register, Timer } from 'claude-code'
@@ -50,22 +57,22 @@ const DEFAULT_SETTINGS: WaitingSettings = {
 
 // Change a tag when that value's fields change: it declines what an earlier
 // version stored, which outlives a reload.
-const view = atom({ plugin: 'onplana', key: 'view' } as const, EMPTY_VIEW, {
+const view = atom({ plugin: 'onplana-waiting', key: 'view' } as const, EMPTY_VIEW, {
   shape: 'view-1',
 })
 const settings = atom(
-  { plugin: 'onplana', key: 'settings' } as const,
+  { plugin: 'onplana-waiting', key: 'settings' } as const,
   DEFAULT_SETTINGS,
   { shape: 'settings-1' },
 )
-const note = atom({ plugin: 'onplana', key: 'note' } as const, null, {
+const note = atom({ plugin: 'onplana-waiting', key: 'note' } as const, null, {
   shape: 'note-1',
 })
-const projects = atom({ plugin: 'onplana', key: 'projects' } as const, [], {
+const projects = atom({ plugin: 'onplana-waiting', key: 'projects' } as const, [], {
   shape: 'projects-1',
 })
-const draft = atom({ plugin: 'onplana', key: 'draft' } as const, '')
-const isPicking = atom({ plugin: 'onplana', key: 'isPicking' } as const, false)
+const draft = atom({ plugin: 'onplana-waiting', key: 'draft' } as const, '')
+const isPicking = atom({ plugin: 'onplana-waiting', key: 'isPicking' } as const, false)
 
 type Dollar = EngineInterface
 type Connection = { ok: true; server: string } | { ok: false; message: string }
@@ -226,7 +233,7 @@ async function connect($: Dollar): Promise<Connection> {
 
   return {
     ok: false,
-    message: `Onplana is not connected (${connected.message}). Run /onplana-connect to sign in.`,
+    message: `Onplana is not connected (${connected.message}). Run /mcp and sign in to the Onplana server, or /onplana-connect if you have the onplana plugin.`,
   }
 }
 

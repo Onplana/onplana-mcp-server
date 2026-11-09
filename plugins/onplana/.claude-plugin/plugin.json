@@ -2,8 +2,8 @@
   "$schema": "https://anthropic.com/claude-code/plugin.schema.json",
   "name": "onplana",
   "displayName": "Onplana",
-  "version": "1.2.0",
-  "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, a Waiting on you pane beside the chat (/onplana-waiting), and connects to the Onplana MCP server, with /onplana-connect to sign in.",
+  "version": "1.2.1",
+  "description": "Plan and run projects in Onplana from Claude Code. Describe the work and get a real plan back: epics, tasks, estimates, dependencies and scheduled dates. Ships the Onplana project-planning and autonomous-agent skills, and connects to the Onplana MCP server, with /onplana-connect to sign in.",
   "author": {
     "name": "Onplana",
     "email": "support@onplana.com",
@@ -24,7 +24,6 @@
     "resource-planning",
     "autonomous-agents"
   ],
-  "types": "./types/index.d.ts",
   "icon": "./icon.png",
   "documentationUrl": "https://docs.onplana.com/ai-agents/connect-an-external-agent/",
   "supportUrl": "https://onplana.com/support",
